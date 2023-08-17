@@ -1,0 +1,67 @@
+server:
+  port: 56040
+  max-http-header-size: 100KB
+
+
+nacos:
+  server:
+    addr: 127.0.0.1:8848
+
+
+
+spring:
+  application:
+    name: merchant-service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${nacos.server.addr}
+        namespace: 3e79c9b9-19e1-4ea0-be32-032587f76458
+        cluster-name: DEFAULT
+      config:
+        server-addr: ${nacos.server.addr}
+        file-extension: yaml
+        namespace: 3e79c9b9-19e1-4ea0-be32-032587f76458
+        group: SHANJUPAY_GROUP
+        ext-config:
+          -
+            refresh: true
+            data-id: spring-boot-http.yaml
+            group: COMMON_GROUP
+          -
+            refresh: true
+            data-id: spring-boot-starter-druid.yaml
+            group: COMMON_GROUP
+
+          - refresh: true
+            data-id: spring-boot-mybatis-plus.yaml
+            group: COMMON_GROUP
+
+
+
+dubbo:
+  scan:
+    base-packages: com.shanjupay
+  protocol:
+    name: dubbo
+    port: 20890
+  registry:
+    address: nacos://127.0.0.1:8848
+  application:
+    qos:
+      qos-port: 22240
+  consumer:
+    check: false
+    timeout: 9 000
+    retries: -1
+logging:
+  config: classpath:log4j2.xml
+
+
+
+
+
+
+
+
+

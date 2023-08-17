@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="shanjupay-merchant-api" />
+        <module name="shanjupay-merchant-service" />
+        <module name="shanjupay-merchant-application" />
+        <module name="shanjupay-common" />
+        <module name="shanjupay-merchant" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
+      <module name="shanjupay" target="1.8" />
+      <module name="shanjupay-common" target="1.8" />
+      <module name="shanjupay-merchant" target="1.8" />
+      <module name="shanjupay-merchant-api" target="1.8" />
+      <module name="shanjupay-merchant-application" target="1.8" />
+      <module name="shanjupay-merchant-service" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="shanjupay-common" options="-parameters -bootclasspath &quot;D:\常用软件\IIdea\IntelliJ IDEA 2020.3.4\jbr/lib/rt.jar;D:\常用软件\IIdea\IntelliJ IDEA 2020.3.4\jbr/lib/jce.jar&quot;" />
+      <module name="shanjupay-merchant" options="-parameters" />
+      <module name="shanjupay-merchant-api" options="-parameters" />
+      <module name="shanjupay-merchant-application" options="-parameters" />
+      <module name="shanjupay-merchant-service" options="-parameters" />
+    </option>
+  </component>
+</project>
