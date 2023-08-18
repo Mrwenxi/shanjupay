@@ -18,5 +18,12 @@ public interface SmsService {
      * @return 
      **/
     String sendMsg(String phone);
-    
+
+    /** @Author wen
+     * @Description //TODO 
+     * @Date 19:57 2023/8/17
+     * @Param 
+     * @return 
+     **/
+    void checkverifycode(String verifyKey,String verifyCode);
 }

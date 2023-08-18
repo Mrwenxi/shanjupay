@@ -1,25 +1,17 @@
 package com.shanjupay.merchant.api.dto;
 
+import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import java.io.Serializable;
-
-/**
- * @program: shanjupay
- * @ClassName MerchantDTO
- * @description:
- * @author: wen
- * @create: 2023-08-15 20:02
- * @Version 1.0
- **/
-@ApiModel(value="MerchantDTO", description="")
 @Data
+@ApiModel(value="MerchantDTO", description="")
 public class MerchantDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "MerchantDTO主键")
+    @ApiModelProperty(value = "主键")
     private Long id;
 
     @ApiModelProperty(value = "商户名称")
@@ -57,5 +49,6 @@ public class MerchantDTO implements Serializable {
 
     @ApiModelProperty(value = "租户ID,关联统一用户")
     private Long tenantId;
+
 
 }

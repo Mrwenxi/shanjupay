@@ -11,4 +11,12 @@ public interface MerchantService {
      **/
     MerchantDTO querymerchantbyid(Long id);
 
+    /** @Author wen
+     * @Description //TODO
+     * @Date 19:19 2023/8/17
+     * @Param merchantDTO
+     * @return
+     **/
+    MerchantDTO createMerchant(MerchantDTO merchantDTO);
+
 }

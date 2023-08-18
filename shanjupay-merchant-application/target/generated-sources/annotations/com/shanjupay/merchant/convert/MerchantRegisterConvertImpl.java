@@ -1,0 +1,41 @@
+package com.shanjupay.merchant.convert;
+
+import com.shanjupay.merchant.api.dto.MerchantDTO;
+import com.shanjupay.merchant.vo.MerchantRegisterVo;
+import javax.annotation.Generated;
+
+@Generated(
+    value = "org.mapstruct.ap.MappingProcessor",
+    date = "2023-08-18T11:00:28+0800",
+    comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_111 (Oracle Corporation)"
+)
+public class MerchantRegisterConvertImpl implements MerchantRegisterConvert {
+
+    @Override
+    public MerchantDTO vo2dto(MerchantRegisterVo vo) {
+        if ( vo == null ) {
+            return null;
+        }
+
+        MerchantDTO merchantDTO = new MerchantDTO();
+
+        merchantDTO.setUsername( vo.getUsername() );
+        merchantDTO.setMobile( vo.getMobile() );
+
+        return merchantDTO;
+    }
+
+    @Override
+    public MerchantRegisterVo dto2vo(MerchantDTO dto) {
+        if ( dto == null ) {
+            return null;
+        }
+
+        MerchantRegisterVo merchantRegisterVo = new MerchantRegisterVo();
+
+        merchantRegisterVo.setMobile( dto.getMobile() );
+        merchantRegisterVo.setUsername( dto.getUsername() );
+
+        return merchantRegisterVo;
+    }
+}
