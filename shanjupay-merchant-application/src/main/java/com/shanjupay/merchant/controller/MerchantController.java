@@ -5,17 +5,22 @@ import com.shanjupay.merchant.api.dto.MerchantDTO;
 import com.shanjupay.merchant.common.domain.BusinessException;
 import com.shanjupay.merchant.common.domain.CommonErrorCode;
 import com.shanjupay.merchant.common.util.PhoneUtil;
+import com.shanjupay.merchant.convert.MerchantDetailConvert;
 import com.shanjupay.merchant.convert.MerchantRegisterConvert;
+import com.shanjupay.merchant.service.FileService;
 import com.shanjupay.merchant.service.SmsService;
+import com.shanjupay.merchant.vo.MerchantDetailVO;
 import com.shanjupay.merchant.vo.MerchantRegisterVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ReactiveTypeDescriptor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.UUID;
 
 /**
  * @program: shanjupay
@@ -26,7 +31,7 @@ import org.springframework.web.bind.annotation.*;
  * @Version 1.0
  **/
 @RestController
-@Api(value="商户平台接口",tags = "商户平台接口",description = "商户平台 接口")
+@Api(value = "商户平台接口", tags = "商户平台接口", description = "商户平台 接口")
 public class MerchantController {
 
     @Reference
@@ -35,48 +40,48 @@ public class MerchantController {
     @Autowired
     SmsService smsService;
 
+    @Autowired
+    FileService fileService;
 
-    @ApiOperation(value="根据id查询商户信息")
+    @ApiOperation(value = "根据id查询商户信息")
     @GetMapping("/merchants/{id}")
     public MerchantDTO querymerchantbyid(
             @ApiParam(value = "商户id ")
-            @PathVariable Long id){
+            @PathVariable Long id) {
         MerchantDTO querymerchantbyid = merchantService.querymerchantbyid(id);
         return querymerchantbyid;
     }
 
 
     @ApiOperation("获取验证码")
-    @ApiImplicitParam(name = "phone",value = "手机号码",required = true,dataType = "String",paramType = "query")
+    @ApiImplicitParam(name = "phone", value = "手机号码", required = true, dataType = "String", paramType = "query")
     @GetMapping("/sms")
-    public String getsmscode(String phone){
+    public String getsmscode(String phone) {
 
-        String key  = smsService.sendMsg(phone);
-    return key;
+        String key = smsService.sendMsg(phone);
+        return key;
     }
 
     @ApiOperation("商户注册")
-    @ApiImplicitParam(name = "MerchantRegisterVo",value = "注册商户信息",required = true,
-    dataType = "MerchantRegisterVo",paramType = "body")
+    @ApiImplicitParam(name = "MerchantRegisterVo", value = "注册商户信息", required = true,
+            dataType = "MerchantRegisterVo", paramType = "body")
     @PostMapping("/merchants/register")
-    public MerchantRegisterVo merchantRegisterVo(@RequestBody MerchantRegisterVo merchantRegisterVo){
+    public MerchantRegisterVo merchantRegisterVo(@RequestBody MerchantRegisterVo merchantRegisterVo) {
 
         //校验参数的合法性
-        if(merchantRegisterVo == null){
+        if (merchantRegisterVo == null) {
             throw new BusinessException(CommonErrorCode.E_100108);
         }
-        if(StringUtils.isBlank(merchantRegisterVo.getMobile())){
+        if (StringUtils.isBlank(merchantRegisterVo.getMobile())) {
             throw new BusinessException(CommonErrorCode.E_100112);
         }
         //手机号格式校验
-        if(!PhoneUtil.isMatches(merchantRegisterVo.getMobile())){
+        if (!PhoneUtil.isMatches(merchantRegisterVo.getMobile())) {
             throw new BusinessException(CommonErrorCode.E_100109);
         }
 
 
-
-
-        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(),merchantRegisterVo.getVerifyCode());
+        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(), merchantRegisterVo.getVerifyCode());
 
 /*        MerchantDTO merchantDTO = new MerchantDTO();
         merchantDTO.setUsername(merchantRegisterVo.getUsername());
@@ -86,7 +91,6 @@ public class MerchantController {
         MerchantDTO merchantDTO = MerchantRegisterConvert.INSTANCE.vo2dto(merchantRegisterVo);
 
         merchantService.createMerchant(merchantDTO);
-
 
 
 //
@@ -104,10 +108,47 @@ public class MerchantController {
 //        return merchantRegisterVO;
 
 
-
-
-         return merchantRegisterVo;
+        return merchantRegisterVo;
     }
+
+
+    //上传证件照
+    @ApiOperation("上传证照")
+    @PostMapping("/upload")
+    public String upload(@ApiParam(value = "证件照", required = true)
+                         @RequestParam("file") MultipartFile multipartFile) {
+
+
+        String originalFilename = multipartFile.getOriginalFilename();
+
+        String suffix = originalFilename.substring(originalFilename.lastIndexOf(".") - 1);
+
+        String fileName = UUID.randomUUID() + suffix;
+
+        String fileUrl = null;
+        try {
+            fileUrl = fileService.upload(multipartFile.getBytes(), fileName);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return fileUrl;
+    }
+
+
+
+    @ApiOperation("资质申请")
+    @PostMapping("/my/merchants/save")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "merchantInfo", value = "商户认证资料", required = true, dataType = "MerchantDetailVO", paramType = "body")
+    })
+    public void saveMerchant(@RequestBody MerchantDetailVO merchantInfo){
+        Long merchantId = 1692365955852623874L;
+
+        MerchantDTO merchantDTO = MerchantDetailConvert.INSTANCE.vo2dto(merchantInfo);
+        merchantService.applyMerchant(merchantId,merchantDTO);
+    }
+
+
 
 
 

@@ -4,10 +4,12 @@ import com.shanjupay.merchant.api.MerchantService;
 import com.shanjupay.merchant.api.dto.MerchantDTO;
 import com.shanjupay.merchant.common.domain.BusinessException;
 import com.shanjupay.merchant.common.domain.CommonErrorCode;
+import com.shanjupay.merchant.common.util.PhoneUtil;
 import com.shanjupay.merchant.convert.MerchantConvert;
 import com.shanjupay.merchant.entity.Merchant;
 import com.shanjupay.merchant.mapper.MerchantMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @org.apache.dubbo.config.annotation.Service
 public class MerchantServiceImpl implements MerchantService {
 
-    @Autowired
+    @Reference
     MerchantMapper merchantMapper;
 
 
@@ -62,13 +64,20 @@ public class MerchantServiceImpl implements MerchantService {
         if(StringUtils.isBlank(merchantDTO.getMobile())){
             throw new BusinessException(CommonErrorCode.E_100112);
         }
+                //手机号格式校验
+        if(!PhoneUtil.isMatches(merchantDTO.getMobile())){
+            throw new BusinessException(CommonErrorCode.E_100109);
+        }
+
         if(StringUtils.isBlank(merchantDTO.getUsername())){
             throw new BusinessException(CommonErrorCode.E_100111);
         }
-  /*      //手机号格式校验
-        if(!PhoneUtil.isMatches(merchantDTO.getMobile())){
-            throw new BusinessException(CommonErrorCode.E_100109);
-        }*/
+
+
+        if(StringUtils.isBlank(merchantDTO.getPassword())){
+            throw new BusinessException(merchantDTO.getPassword());
+        }
+
 
 
 
@@ -83,5 +92,22 @@ public class MerchantServiceImpl implements MerchantService {
 
 
         return merchantDTNew;
+    }
+
+    @Override
+    public void applyMerchant(Long merchantId, MerchantDTO merchantDTO) {
+        if(merchantId == null || merchantDTO == null){
+            throw new BusinessException(CommonErrorCode.E_300009);
+        }
+        Merchant merchant = merchantMapper.selectById(merchantId);
+        if(merchant == null){
+            throw new BusinessException(CommonErrorCode.E_200002);
+        }
+        Merchant entity = MerchantConvert.INSTANCE.dto2entity(merchantDTO);
+        entity.setId(merchant.getId());
+        entity.setMobile(merchant.getMobile());
+        entity.setAuditStatus("1");
+        entity.setTenantId(merchant.getTenantId());
+        merchantMapper.updateById(entity);
     }
 }

@@ -19,4 +19,8 @@ public interface MerchantService {
      **/
     MerchantDTO createMerchant(MerchantDTO merchantDTO);
 
+
+    void applyMerchant(Long merchantId,MerchantDTO merchantDTO) ;
+
+
 }

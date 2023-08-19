@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-18T11:03:08+0800",
+    date = "2023-08-19T10:37:17+0800",
     comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_111 (Oracle Corporation)"
 )
 public class MerchantConvertImpl implements MerchantConvert {

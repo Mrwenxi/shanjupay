@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2023-08-18T11:00:28+0800",
+    date = "2023-08-19T10:37:05+0800",
     comments = "version: 1.3.0.Final, compiler: javac, environment: Java 1.8.0_111 (Oracle Corporation)"
 )
 public class MerchantRegisterConvertImpl implements MerchantRegisterConvert {
@@ -20,6 +20,7 @@ public class MerchantRegisterConvertImpl implements MerchantRegisterConvert {
         MerchantDTO merchantDTO = new MerchantDTO();
 
         merchantDTO.setUsername( vo.getUsername() );
+        merchantDTO.setPassword( vo.getPassword() );
         merchantDTO.setMobile( vo.getMobile() );
 
         return merchantDTO;
@@ -35,6 +36,7 @@ public class MerchantRegisterConvertImpl implements MerchantRegisterConvert {
 
         merchantRegisterVo.setMobile( dto.getMobile() );
         merchantRegisterVo.setUsername( dto.getUsername() );
+        merchantRegisterVo.setPassword( dto.getPassword() );
 
         return merchantRegisterVo;
     }
