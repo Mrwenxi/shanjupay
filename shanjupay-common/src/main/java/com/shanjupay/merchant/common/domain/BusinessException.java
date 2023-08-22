@@ -7,7 +7,7 @@ package com.shanjupay.merchant.common.domain;
 public class BusinessException extends RuntimeException {
 
 	
-	private static final long serialVersionUID = 5565760508056698922L;
+	private static final long serialVersionUID = 1692365955852623874L;
 	
 	private ErrorCode errorCode;
 

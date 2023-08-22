@@ -12,6 +12,7 @@
         <module>shanjupay-merchant</module>
         <module>shanjupay-merchant/shanjupay-merchant-api</module>
         <module>shanjupay-merchant/shanjupay-merchant-service</module>
+        <module>shanjupay-transaction</module>
     </modules>
 
     <parent>

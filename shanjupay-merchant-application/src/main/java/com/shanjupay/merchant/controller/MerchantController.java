@@ -1,10 +1,13 @@
 package com.shanjupay.merchant.controller;
 
+import com.shanjupay.merchant.api.AppService;
 import com.shanjupay.merchant.api.MerchantService;
+import com.shanjupay.merchant.api.dto.AppDTO;
 import com.shanjupay.merchant.api.dto.MerchantDTO;
 import com.shanjupay.merchant.common.domain.BusinessException;
 import com.shanjupay.merchant.common.domain.CommonErrorCode;
 import com.shanjupay.merchant.common.util.PhoneUtil;
+import com.shanjupay.merchant.common.util.SecurityUtil;
 import com.shanjupay.merchant.convert.MerchantDetailConvert;
 import com.shanjupay.merchant.convert.MerchantRegisterConvert;
 import com.shanjupay.merchant.service.FileService;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -42,6 +46,10 @@ public class MerchantController {
 
     @Autowired
     FileService fileService;
+
+    @Autowired(required = false)
+    AppService appService;
+
 
     @ApiOperation(value = "根据id查询商户信息")
     @GetMapping("/merchants/{id}")
@@ -81,7 +89,7 @@ public class MerchantController {
         }
 
 
-        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(), merchantRegisterVo.getVerifyCode());
+//        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(), merchantRegisterVo.getVerifyCode());
 
 /*        MerchantDTO merchantDTO = new MerchantDTO();
         merchantDTO.setUsername(merchantRegisterVo.getUsername());
@@ -142,10 +150,24 @@ public class MerchantController {
             @ApiImplicitParam(name = "merchantInfo", value = "商户认证资料", required = true, dataType = "MerchantDetailVO", paramType = "body")
     })
     public void saveMerchant(@RequestBody MerchantDetailVO merchantInfo){
-        Long merchantId = 1692365955852623874L;
+//        Long merchantId = 1692365955852623874L;
+//        MerchantDTO merchantDTO = MerchantDetailConvert.INSTANCE.vo2dto(merchantInfo);
+//        merchantService.applyMerchant(merchantId,merchantDTO);
 
+
+        Long merchantId = SecurityUtil.getMerchantId();
         MerchantDTO merchantDTO = MerchantDetailConvert.INSTANCE.vo2dto(merchantInfo);
         merchantService.applyMerchant(merchantId,merchantDTO);
+
+
+    }
+
+    @ApiOperation("查询商户下的应用列表")
+    @GetMapping(value = "/my/apps")
+    public List<AppDTO> queryMyApps() {
+        //商户id
+        Long merchantId = SecurityUtil.getMerchantId();
+        return appService.queryAppByMerchant(merchantId);
     }
 
 

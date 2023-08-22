@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @create: 2023-08-16 08:44
  * @Version 1.0
  **/
-@org.apache.dubbo.config.annotation.Service
+@Service
 public class MerchantServiceImpl implements MerchantService {
 
     @Reference
