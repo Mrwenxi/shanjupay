@@ -19,7 +19,7 @@ public interface MerchantConvert {
 
     MerchantConvert INSTANCE =Mappers.getMapper(MerchantConvert.class);
 
-    MerchantDTO entity2dto(Merchant entity);
+    MerchantDTO entity2dto(Merchant merchant);
 
     Merchant dto2entity(MerchantDTO dto);
 }

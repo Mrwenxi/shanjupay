@@ -13,6 +13,8 @@
     <artifactId>shanjupay-merchant-service</artifactId>
 
 
+    <packaging>jar</packaging>
+
     <dependencies>
 
         <!--nacos 配置中心 依赖-->
@@ -130,6 +132,13 @@
             <groupId>com.shanjupay</groupId>
             <artifactId>shanjupay-merchant-api</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.shanjupay</groupId>
+            <artifactId>shanjupay-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
 
 

@@ -52,7 +52,7 @@ dubbo:
       qos-port: 22240
   consumer:
     check: false
-    timeout: 9 000
+    timeout: 9000
     retries: -1
 logging:
   config: classpath:log4j2.xml

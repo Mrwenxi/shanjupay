@@ -10,6 +10,7 @@ import com.shanjupay.merchant.common.util.PhoneUtil;
 import com.shanjupay.merchant.common.util.SecurityUtil;
 import com.shanjupay.merchant.convert.MerchantDetailConvert;
 import com.shanjupay.merchant.convert.MerchantRegisterConvert;
+import com.shanjupay.merchant.entity.Merchant;
 import com.shanjupay.merchant.service.FileService;
 import com.shanjupay.merchant.service.SmsService;
 import com.shanjupay.merchant.vo.MerchantDetailVO;
@@ -51,13 +52,16 @@ public class MerchantController {
     AppService appService;
 
 
+
+
+
+
     @ApiOperation(value = "根据id查询商户信息")
-    @GetMapping("/merchants/{id}")
-    public MerchantDTO querymerchantbyid(
-            @ApiParam(value = "商户id ")
-            @PathVariable Long id) {
-        MerchantDTO querymerchantbyid = merchantService.querymerchantbyid(id);
-        return querymerchantbyid;
+    @GetMapping("/mer/{id}")
+    public MerchantDTO querymerchantbyid(@PathVariable("id") Long id) {
+        MerchantDTO merchantDTO =
+                merchantService.querymerchantbyid(id);
+        return merchantDTO;
     }
 
 
@@ -76,34 +80,21 @@ public class MerchantController {
     @PostMapping("/merchants/register")
     public MerchantRegisterVo merchantRegisterVo(@RequestBody MerchantRegisterVo merchantRegisterVo) {
 
+
         //校验参数的合法性
-        if (merchantRegisterVo == null) {
+        if(merchantRegisterVo == null){
             throw new BusinessException(CommonErrorCode.E_100108);
         }
-        if (StringUtils.isBlank(merchantRegisterVo.getMobile())) {
+        if(StringUtils.isBlank(merchantRegisterVo.getMobile())){
             throw new BusinessException(CommonErrorCode.E_100112);
         }
         //手机号格式校验
-        if (!PhoneUtil.isMatches(merchantRegisterVo.getMobile())) {
+        if(!PhoneUtil.isMatches(merchantRegisterVo.getMobile())){
             throw new BusinessException(CommonErrorCode.E_100109);
         }
 
-
-//        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(), merchantRegisterVo.getVerifyCode());
-
-/*        MerchantDTO merchantDTO = new MerchantDTO();
-        merchantDTO.setUsername(merchantRegisterVo.getUsername());
-        merchantDTO.setMobile(merchantDTO.getMobile());
-        merchantService.createMerchant(merchantDTO);*/
-
-        MerchantDTO merchantDTO = MerchantRegisterConvert.INSTANCE.vo2dto(merchantRegisterVo);
-
-        merchantService.createMerchant(merchantDTO);
-
-
-//
         //校验验证码
-//        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(),merchantRegisterVo.getVerifyCode());
+        smsService.checkverifycode(merchantRegisterVo.getVerifyKey(),merchantRegisterVo.getVerifyCode());
         //调用dubbo服务接口
 //        MerchantDTO merchantDTO = new MerchantDTO();
         //向dto写入商户注册的信息
@@ -111,11 +102,8 @@ public class MerchantController {
 //        merchantDTO.setUsername(merchantRegisterVO.getUsername());
         //...
         //使用MapStruct转换对象
-//        MerchantDTO merchantDTO = MerchantRegisterConvert.INSTANCE.vo2dto(merchantRegisterVO);
-//        merchantService.createMerchant(merchantDTO);
-//        return merchantRegisterVO;
-
-
+        MerchantDTO merchantDTO = MerchantRegisterConvert.INSTANCE.vo2dto(merchantRegisterVo);
+        merchantService.createMerchant(merchantDTO);
         return merchantRegisterVo;
     }
 

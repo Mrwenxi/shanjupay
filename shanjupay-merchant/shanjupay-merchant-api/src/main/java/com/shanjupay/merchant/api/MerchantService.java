@@ -10,7 +10,9 @@ public interface MerchantService {
      * @Param id
      * @return
      **/
-    MerchantDTO querymerchantbyid(Long id);
+
+   MerchantDTO querymerchantbyid(Long id);
+
 
     /** @Author wen
      * @Description //TODO

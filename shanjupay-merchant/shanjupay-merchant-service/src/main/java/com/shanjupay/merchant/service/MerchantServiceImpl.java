@@ -31,22 +31,11 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public MerchantDTO querymerchantbyid(Long id) {
         Merchant merchant = merchantMapper.selectById(id);
-        MerchantDTO merchantDTO = new MerchantDTO();
-        merchantDTO.setId(merchant.getId());
-        merchantDTO.setMerchantName(merchant.getMerchantName());
-        merchantDTO.setMerchantNo(merchant.getMerchantNo());
-        merchantDTO.setMerchantAddress(merchant.getMerchantAddress());
-        merchantDTO.setMerchantType(merchant.getMerchantType());
-        merchantDTO.setBusinessLicensesImg(merchant.getBusinessLicensesImg());
-        merchantDTO.setIdCardFrontImg(merchant.getIdCardFrontImg());
-        merchantDTO.setIdCardAfterImg(merchant.getIdCardAfterImg());
-        merchantDTO.setUsername(merchant.getUsername());
-        merchantDTO.setMobile(merchant.getMobile());
-        merchantDTO.setContactsAddress(merchant.getContactsAddress());
-        merchantDTO.setAuditStatus(merchant.getAuditStatus());
-        merchantDTO.setTenantId(merchant.getTenantId());
-
-        return merchantDTO ;
+//        MerchantDTO merchantDTO = new MerchantDTO();
+//        merchantDTO.setId(merchant.getId());
+//        merchantDTO.setMerchantName(merchant.getMerchantName());
+        //....
+        return MerchantConvert.INSTANCE.entity2dto(merchant);
     }
 
     @Override
@@ -58,7 +47,7 @@ public class MerchantServiceImpl implements MerchantService {
         merchant.setAuditStatus("0");*/
 
         //校验参数的合法性
-        if(merchantDTO == null){
+/*        if(merchantDTO == null){
             throw new BusinessException(CommonErrorCode.E_100108);
         }
         if(StringUtils.isBlank(merchantDTO.getMobile())){
@@ -71,7 +60,7 @@ public class MerchantServiceImpl implements MerchantService {
 
         if(StringUtils.isBlank(merchantDTO.getUsername())){
             throw new BusinessException(CommonErrorCode.E_100111);
-        }
+        }*/
 
 
         if(StringUtils.isBlank(merchantDTO.getPassword())){

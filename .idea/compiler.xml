@@ -12,7 +12,6 @@
         <module name="shanjupay-merchant-service" />
         <module name="shanjupay-transaction-api" />
         <module name="shanjupay-common" />
-        <module name="shanjupay-merchant" />
         <module name="shanjupay-merchant-application" />
         <module name="shanjupay-transaction-service" />
       </profile>
@@ -22,7 +21,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="shanjupay-common" options="-parameters -bootclasspath C:\Users\xi\.jdks\corretto-17.0.8/lib/rt.jar;C:\Users\xi\.jdks\corretto-17.0.8/lib/jce.jar" />
-      <module name="shanjupay-merchant" options="-parameters" />
+      <module name="shanjupay-merchant" options="" />
       <module name="shanjupay-merchant-api" options="-parameters" />
       <module name="shanjupay-merchant-application" options="-parameters" />
       <module name="shanjupay-merchant-service" options="-parameters" />
